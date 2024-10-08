@@ -1,9 +1,13 @@
+const models = {};
 export const TodoModel = (app) => {
   const modelName = 'Todo';
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const todoSchema = new Schema({
-    todoId: String,
+    list_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'List',
+    },
     todoTitle: String,
     category: String,
     due: String,
@@ -19,5 +23,8 @@ export const TodoModel = (app) => {
     ],
   });
 
-  return mongooseClient.model(modelName, todoSchema);
+  models.List = mongooseClient.model(modelName, todoSchema);
+  return models.List;
 };
+
+export const getModels = (modelName) => models[modelName];

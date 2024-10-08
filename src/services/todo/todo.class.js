@@ -1,6 +1,7 @@
 import feathersMongoose from 'feathers-mongoose';
 import { TodoModel } from './todo.schema.js';
-import { ListService } from '../list/list.class.js';
+import mongoose from 'mongoose';
+import { getModels } from '../list/list.schema.js';
 
 const { Service } = feathersMongoose;
 export class TodoService extends Service {
@@ -10,6 +11,7 @@ export class TodoService extends Service {
    * @returns {object}
    */
   async find(params) {
+    console.log(params);
     const _params = {
       ...params,
       query: {
@@ -41,15 +43,22 @@ export class TodoService extends Service {
     const data = super.get(id, _params);
     return data;
   }
+
+  /**
+   *
+   * @param {object} data
+   * @param {object} params
+   * @description Gets the data and params to create new entry
+   * @returns {object}
+   */
   async create(data, params) {
     const _params = {
       ...params,
     };
     const response = await super.create(data, _params);
-    const { _id } = response;
-    ListService.get
     return response;
   }
+
   /**
    *
    * @param {string} id
@@ -65,7 +74,13 @@ export class TodoService extends Service {
     const response = super.patch(id, data, _params);
     return response;
   }
-
+  /**
+   *
+   * @param {string} id
+   * @param {object} params
+   * @description Gets the data and id to delete and calls the delete adapter
+   * @returns {object}
+   */
   async delete(id, params) {
     const _params = {
       ...params,

@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-
+const models = {};
 export const ListModel = (app) => {
   const modelName = 'List';
   const mongooseClient = app.get('mongooseClient');
@@ -9,11 +8,14 @@ export const ListModel = (app) => {
     isDeleted: Boolean,
     todos: [
       {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Todo',
       },
     ],
   });
 
-  return mongooseClient.model(modelName, listSchema);
+  models.List = mongooseClient.model(modelName, listSchema);
+  return models.List;
 };
+
+export const getModels = (modelName) => models[modelName];
