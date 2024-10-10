@@ -1,6 +1,7 @@
 import { SubtaskService, getOptions } from './subtask.class.js';
+import { insertTodoIntoTodoReference } from './subtask.hooks.js';
 
-export const subtaskPath = 'subtask';
+export const subtaskPath = 'list/:list_id/todo/:todo_id/subtask';
 export const subtaskMethods = ['find', 'get', 'create', 'patch', 'remove'];
 
 export const subtask = (app) => {
@@ -10,5 +11,10 @@ export const subtask = (app) => {
     events: [],
   });
   // Initialize hooks
-  app.service(subtaskPath);
+  app.service(subtaskPath).hooks({
+    after: {
+      find: [],
+      create: [insertTodoIntoTodoReference],
+    },
+  });
 };

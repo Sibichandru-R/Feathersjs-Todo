@@ -23,8 +23,8 @@ export const TodoModel = (app) => {
     ],
   });
 
-  models.List = mongooseClient.model(modelName, todoSchema);
-  return models.List;
+  models.Todo = mongooseClient.model(modelName, todoSchema);
+  return models.Todo;
 };
 
 export const getModels = (modelName) => models[modelName];

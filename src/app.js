@@ -13,6 +13,7 @@ import { configurationValidator } from './configuration.js';
 import { logger } from './logger.js';
 import { logError } from './hooks/log-error.js';
 import { mongoosedb } from './mongodb.js';
+import { authentication } from './authentication.js';
 import { services } from './services/index.js';
 
 const app = express(feathers());
@@ -31,6 +32,8 @@ app.configure(rest());
 app.configure(mongoosedb);
 
 app.configure(services);
+
+app.configure(authentication);
 
 // Configure a middleware for 404s and the error handler
 app.use(notFound());

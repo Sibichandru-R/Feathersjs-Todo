@@ -1,7 +1,5 @@
 import feathersMongoose from 'feathers-mongoose';
 import { TodoModel } from './todo.schema.js';
-import mongoose from 'mongoose';
-import { getModels } from '../list/list.schema.js';
 
 const { Service } = feathersMongoose;
 export class TodoService extends Service {
@@ -16,6 +14,7 @@ export class TodoService extends Service {
       ...params,
       query: {
         ...params.query,
+        // _id: params.route.list_id,
         $populate: {
           path: 'subtasks',
         },

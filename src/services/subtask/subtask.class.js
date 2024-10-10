@@ -4,6 +4,10 @@ import { SubtaskModel } from './subtask.schema.js';
 const { Service } = feathersMongoose;
 
 export class SubtaskService extends Service {
+  async find(params) {
+    console.log(params);
+    return await super.find(params);
+  }
   /**
    * @name get
    * @param {*} id
@@ -15,15 +19,20 @@ export class SubtaskService extends Service {
       ...params,
       query: {
         ...params.query,
-        $populate: {
-          path: 'todo',
-        },
       },
     };
     const data = await super.get(id, _params);
     return data;
   }
-  
+
+  async create(data, params) {
+    const _params = {
+      ...params,
+    };
+    const response = await super.create(data, _params);
+    return response;
+  }
+
   async delete(id, params) {
     const _params = {
       ...params,

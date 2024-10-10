@@ -9,10 +9,6 @@ export const SubtaskModel = (app) => {
     isCompleted: Boolean,
     isDeleted: Boolean,
     notes: String,
-    todoId: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Todo',
-    },
   });
 
   return mongooseClient.model(modelName, subtaskSchema);
