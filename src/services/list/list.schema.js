@@ -4,8 +4,14 @@ export const ListModel = (app) => {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const listSchema = new Schema({
-    listName: String,
-    isDeleted: Boolean,
+    listName: {
+      type: String,
+      required: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
     todos: [
       {
         type: Schema.Types.ObjectId,
