@@ -4,7 +4,11 @@ export const ListModel = (app) => {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const listSchema = new Schema({
-    listName: {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    name: {
       type: String,
       required: true,
     },
@@ -12,12 +16,6 @@ export const ListModel = (app) => {
       type: Boolean,
       default: false,
     },
-    todos: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Todo',
-      },
-    ],
   });
 
   models.List = mongooseClient.model(modelName, listSchema);

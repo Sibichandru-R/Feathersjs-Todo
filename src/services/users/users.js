@@ -1,8 +1,7 @@
 import { UserService, getOptions } from './users.class.js';
 import { hooks as schemaHooks } from '@feathersjs/schema';
 
-import { userDataResolver } from './users.schema.js';
-import { userExternalResolver } from './users.hooks.js';
+import { userExternalResolver, userPopulateData, userDataResolver } from './users.hooks.js';
 export const userPath = 'users';
 export const userMethods = ['find', 'get', 'create', 'patch', 'remove'];
 
@@ -17,18 +16,15 @@ export const user = (app) => {
   // Initialize hooks
   app.service(userPath).hooks({
     around: {
-      all: [schemaHooks.resolveExternal(userExternalResolver)],
-      // find: [authenticate('jwt')],
-      // get: [authenticate('jwt')],
+      all: [],
+      find: [schemaHooks.resolveExternal(userExternalResolver)],
+      get: [schemaHooks.resolveExternal(userExternalResolver)],
       create: [],
-      // update: [authenticate('jwt')],
-      // patch: [authenticate('jwt')],
-      // remove: [authenticate('jwt')]
     },
     before: {
       all: [],
-      find: [],
-      get: [],
+      find: [userPopulateData],
+      get: [userPopulateData],
       create: [schemaHooks.resolveData(userDataResolver)],
       patch: [],
       remove: [],

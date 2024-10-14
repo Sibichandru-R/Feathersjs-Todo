@@ -9,19 +9,17 @@ export class TodoService extends Service {
    * @returns {object}
    */
   async find(params) {
-    console.log(params);
     const _params = {
       ...params,
       query: {
         ...params.query,
-        // _id: params.route.list_id,
-        $populate: {
-          path: 'subtasks',
-        },
+        list: params.route.list_id,
+        isDeleted: false,
       },
     };
     return await super.find(_params);
   }
+
   /**
    * @name get
    * @param {string} id
@@ -34,13 +32,11 @@ export class TodoService extends Service {
       ...params,
       query: {
         ...params.query,
-        $populate: {
-          path: 'subtasks',
-        },
+        list: params.route.list_id,
+        isDeleted: false,
       },
     };
-    const data = super.get(id, _params);
-    return data;
+    return super.get(id, _params);
   }
 
   /**
@@ -51,11 +47,11 @@ export class TodoService extends Service {
    * @returns {object}
    */
   async create(data, params) {
-    const _params = {
-      ...params,
+    const _data = {
+      ...data,
+      list: params.route.list_id,
     };
-    const response = await super.create(data, _params);
-    return response;
+    return await super.create(_data, params);
   }
 
   /**
@@ -67,11 +63,7 @@ export class TodoService extends Service {
    * @returns {object}
    */
   async patch(id, data, params) {
-    const _params = {
-      ...params,
-    };
-    const response = super.patch(id, data, _params);
-    return response;
+    return super.patch(id, data, params);
   }
   /**
    *
@@ -80,12 +72,9 @@ export class TodoService extends Service {
    * @description Gets the data and id to delete and calls the delete adapter
    * @returns {object}
    */
-  async delete(id, params) {
-    const _params = {
-      ...params,
-    };
+  async remove(id, params) {
     const data = { isDeleted: true };
-    return await super.patch(id, data, _params);
+    return await super.patch(id, data, params);
   }
 }
 

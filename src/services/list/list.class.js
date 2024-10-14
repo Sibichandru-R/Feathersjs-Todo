@@ -10,14 +10,19 @@ export class ListService extends Service {
    * @description
    */
   async find(params) {
+    console.log(params.route.user_id);
     const _params = {
       ...params,
       query: {
         ...params.query,
-        $populate: {
-          path: 'todos',
-        },
+        $populate: [
+          {
+            path: 'user',
+            select: 'email',
+          },
+        ],
         isDeleted: false,
+        user: params.route.user_id,
       },
     };
     const data = await super.find(_params);
@@ -36,9 +41,8 @@ export class ListService extends Service {
       ...params,
       query: {
         ...params.query,
-        $populate: {
-          path: 'todos',
-        },
+        isDeleted: false,
+        user: params.route.user_id,
       },
     };
     const data = super.get(id, _params);
@@ -53,10 +57,12 @@ export class ListService extends Service {
    * @description
    */
   async create(data, params) {
-    const _params = {
-      ...params,
+    const _data = {
+      ...data,
+      user: params.route.user_id,
     };
-    return await super.create(data, _params);
+    console.log(_data)
+    return await super.create(_data, params);
   }
 
   /**
@@ -68,12 +74,7 @@ export class ListService extends Service {
    * @description
    */
   async patch(id, data, params) {
-    let _data = await super.get(id, params);
-    _data = {
-      ...data,
-      todos: [..._data.todos, ...data?.todos],
-    };
-    return await super.patch(id, _data, params);
+    return await super.patch(id, data, params);
   }
 
   /**
@@ -83,12 +84,9 @@ export class ListService extends Service {
    * @returns {Object}
    * @description
    */
-  async delete(id, params) {
-    const _params = {
-      ...params,
-    };
+  async remove(id, params) {
     const data = { isDeleted: true };
-    return await super.patch(id, data, _params);
+    return await super.patch(id, data, params);
   }
 }
 

@@ -1,6 +1,7 @@
 import { ListService, getOptions } from './list.class.js';
+import { defaultHooks } from './list.hooks.js';
 
-export const listPath = 'list';
+export const listPath = 'user/:user_id/list';
 export const listMethods = ['find', 'get', 'create', 'patch', 'remove'];
 
 export * from './list.class.js';
@@ -17,23 +18,5 @@ export const list = (app) => {
     events: [],
   });
 
-  app.service(listPath).hooks({
-    around: {
-      all: [],
-    },
-    before: {
-      all: [],
-      find: [],
-      get: [],
-      create: [],
-      patch: [],
-      remove: [],
-    },
-    after: {
-      all: [],
-    },
-    error: {
-      all: [],
-    },
-  });
+  app.service(listPath).hooks(defaultHooks);
 };

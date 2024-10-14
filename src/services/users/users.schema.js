@@ -1,6 +1,3 @@
-import { passwordHash } from '@feathersjs/authentication-local';
-import { resolve } from '@feathersjs/schema';
-
 const models = {};
 export const userModel = (app) => {
   const modelName = 'User';
@@ -28,9 +25,3 @@ export const userModel = (app) => {
 };
 
 export const getModels = (modelName) => models[modelName];
-
-export const userDataResolver = resolve({
-  properties: {
-    password: passwordHash({ strategy: 'local' }),
-  },
-});

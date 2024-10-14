@@ -4,23 +4,39 @@ export const TodoModel = (app) => {
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const todoSchema = new Schema({
-    list_id: {
+    list: {
       type: Schema.Types.ObjectId,
       ref: 'List',
     },
-    todoTitle: String,
-    category: String,
-    due: String,
-    isDeleted: Boolean,
-    isImportant: Boolean,
-    isCompleted: Boolean,
-    notes: String,
-    subtasks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Subtask',
-      },
-    ],
+    title: {
+      type: String,
+      required: true,
+      default: 'Untitled',
+    },
+    category: {
+      type: String,
+      default: '',
+    },
+    due: {
+      type: String,
+      default: '',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isImportant: {
+      type: Boolean,
+      default: false,
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
+    note: {
+      type: String,
+      default: '',
+    },
   });
 
   models.Todo = mongooseClient.model(modelName, todoSchema);
